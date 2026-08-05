@@ -4,15 +4,31 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/python:3.12
+    resource_class: small
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - deps-v1-{{ checksum "requirements-dev.txt" }}
       - run:
-          name: Diagnostics
+          name: Install dependencies
           command: |
-            echo "hello from circleci"
-            python --version
-            pwd
-            ls -la
+            python -m venv venv
+            . venv/bin/activate
+            python -m pip install --upgrade pip
+            pip install -r requirements-dev.txt
+      - save_cache:
+          key: deps-v1-{{ checksum "requirements-dev.txt" }}
+          paths:
+            - venv
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            mkdir -p test-results
+            pytest
+      - store_test_results:
+          path: test-results
 
 workflows:
   build-test:

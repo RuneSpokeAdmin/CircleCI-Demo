@@ -15,11 +15,13 @@ jobs:
       - restore_cache:
           keys:
             - deps-v1-{{ checksum "requirements-dev.txt" }}
-      - run:
+	- run:
           name: Install dependencies
           command: |
+            python --version
             python -m venv venv
             . venv/bin/activate
+            python -m pip install --upgrade pip
             pip install -r requirements-dev.txt
       - save_cache:
           key: deps-v1-{{ checksum "requirements-dev.txt" }}

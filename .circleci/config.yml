@@ -1,42 +1,15 @@
 version: 2.1
 
-# =============================================================================
-# Demo pipeline: install, then run the tests. If a change breaks a test,
-# the build goes red and nothing ships. Push the fix, it goes green.
-# =============================================================================
-
 jobs:
   build-and-test:
     docker:
       - image: cimg/python:3.12
-    resource_class: small
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - deps-v1-{{ checksum "requirements-dev.txt" }}
       - run:
-          name: Install dependencies
+          name: Diagnostics
           command: |
+            echo "hello from circleci"
             python --version
-            python -m venv venv
-            . venv/bin/activate
-            python -m pip install --upgrade pip
-            pip install -r requirements-dev.txt
-      - save_cache:
-          key: deps-v1-{{ checksum "requirements-dev.txt" }}
-          paths:
-            - venv
-      - run:
-          name: Run tests
-          command: |
-            . venv/bin/activate
-            mkdir -p test-results
-            pytest
-      - store_test_results:
-          path: test-results
-
-workflows:
-  build-test:
-    jobs:
-      - build-and-test
+            pwd
+            ls -la

@@ -15,7 +15,7 @@ jobs:
       - restore_cache:
           keys:
             - deps-v1-{{ checksum "requirements-dev.txt" }}
-	- run:
+      - run:
           name: Install dependencies
           command: |
             python --version

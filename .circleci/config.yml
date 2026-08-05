@@ -13,3 +13,8 @@ jobs:
             python --version
             pwd
             ls -la
+
+workflows:
+  build-test:
+    jobs:
+      - build-and-test

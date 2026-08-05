@@ -8,19 +8,10 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: |
-            echo "step started"
-            python --version
-            python -m venv venv
-            echo "venv created"
-            . venv/bin/activate
-            echo "venv activated"
-            pip install -r requirements-dev.txt
-            echo "install done"
+          command: pip install -r requirements-dev.txt
       - run:
           name: Run tests
           command: |
-            . venv/bin/activate
             mkdir -p test-results
             pytest
 

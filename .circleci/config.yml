@@ -4,31 +4,25 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/python:3.12
-    resource_class: small
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - deps-v1-{{ checksum "requirements-dev.txt" }}
       - run:
           name: Install dependencies
           command: |
+            echo "step started"
+            python --version
             python -m venv venv
+            echo "venv created"
             . venv/bin/activate
-            python -m pip install --upgrade pip
+            echo "venv activated"
             pip install -r requirements-dev.txt
-      - save_cache:
-          key: deps-v1-{{ checksum "requirements-dev.txt" }}
-          paths:
-            - venv
+            echo "install done"
       - run:
           name: Run tests
           command: |
             . venv/bin/activate
             mkdir -p test-results
             pytest
-      - store_test_results:
-          path: test-results
 
 workflows:
   build-test:

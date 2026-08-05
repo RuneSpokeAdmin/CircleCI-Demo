@@ -15,3 +15,8 @@ If a change breaks a test, the build goes red and nothing ships.
 3. Watch the build go red in CircleCI, live.
 4. Push the fix (remove the 4th widget). Build goes green.
 5. That red build is the bug that never reached production.
+
+## Python Notes
+the venv creation was silently failing in the container (the python -m venv venv step).
+Removing it was both the fix and the more correct approach , in an ephemeral CI container you don't need a venv, the container is already isolated.
+Cleaner config, and it matches how real CircleCI Python pipelines usually look.

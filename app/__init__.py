@@ -12,7 +12,7 @@ def create_app():
     @app.get("/widgets/count")
     def widget_count():
         # returns how many widgets are in stock
-        widgets = ["sprocket", "gadget", "cog"]
+        widgets = ["sprocket", "gadget", "cog", "bolt"]
         return jsonify(count=len(widgets))
 
     return app
